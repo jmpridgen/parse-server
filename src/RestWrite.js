@@ -448,6 +448,10 @@ RestWrite.prototype._validateEmail = function() {
   if (!this.data.email || this.data.email.__op === 'Delete') {
     return Promise.resolve();
   }
+  // Do not need to do any further validation if the email is the same as it was in the original
+  if (this.data.email === this.originalData.email) {
+    return Promise.resolve();
+  }
   // Validate basic email address format
   if (!this.data.email.match(/^.+@.+$/)) {
     return Promise.reject(new Parse.Error(Parse.Error.INVALID_EMAIL_ADDRESS, 'Email address format is invalid.'));
